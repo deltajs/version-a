@@ -1,45 +1,54 @@
 
 var
-    FieldNotifier = include( parentNameSpace + ".FieldNotifier" ),
-    PropertyNotifier = include( parentNameSpace + ".PropertyNotifier" )
+    FieldNotifier       = include( parentNameSpace + ".notifier.FieldNotifier" ),
+    PropertyNotifier    = include( parentNameSpace + ".notifier.PropertyNotifier" ),
+    Relationship        = include( parentNameSpace + ".Relationship" )
 ;
 
 ObjectObserverNode.Super = "delta.com.dataStructure.graph.GraphNode";
 
 function ObjectObserverNode(params){
     Super(this, params);
-    this.buildPropertyName();
+    this.buildProperties();
 }
 
 ObjectObserverNode.properties = {
     notifier        : null,
     propertyName    : null,
     sourceObject    : null,
+    rootObject      : null,
 
-    buildPropertyName : function buildPropertyName(){
-        this.propertyName = this.id.split(".").pop();
+    buildProperties : function buildProperties(){
+        this.path                   = this.id;
+        this.propertyName           = this.path.split(".").pop();
+        this.rootObject             = this.graph.rootObject;
+        this.propertyRelationships  = Relationship.getPropertyRelationships( this.rootObject, this.path );
     },
 
     bind : function bind(sourceObject, mustNotify, notifier){
         this.sourceObject = sourceObject;
 
         var
-            propertyDescriptor  = Object.getOwnPropertyDescriptor( sourceObject, this.propertyName ),
-            propertyType        = this.getPropertyType(propertyDescriptor),
-
+            propertyDescriptor      = Object.getOwnPropertyDescriptor( sourceObject, this.propertyName ),
+            propertyType            = this.getPropertyType(propertyDescriptor),
+            
             data = {
-                sourceObject        : sourceObject,
-                propertyName        : this.propertyName,
-                propertyDescriptor  : propertyDescriptor,
-                fieldValue          : propertyDescriptor.value,
-                originalGetter      : propertyDescriptor.get,
-                originalSetter      : propertyDescriptor.set,
-                mustNotify          : mustNotify,
-                node                : this,
-                notifier            : notifier,
-                rootObject          : this.graph.rootObject
+                sourceObject            : sourceObject,
+                propertyName            : this.propertyName,
+                propertyDescriptor      : propertyDescriptor,
+                fieldValue              : propertyDescriptor.value,
+                originalGetter          : propertyDescriptor.get,
+                originalSetter          : propertyDescriptor.set,
+                mustNotify              : mustNotify,
+                node                    : this,
+                notifier                : notifier,
+                rootObject              : this.rootObject,
+                path                    : this.path,
+                propertyRelationships   : this.propertyRelationships
             }
         ;
+
+        console.log('>>>', propertyType);
 
         switch( propertyType ){
             case "field":

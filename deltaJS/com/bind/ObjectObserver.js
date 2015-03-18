@@ -1,7 +1,7 @@
 
 var
-	ObjectObserverNode = include( parentNameSpace + ".ObjectObserverNode"),
-    Propagator = include( parentNameSpace + ".Propagator")
+	ObjectObserverNode  = include( parentNameSpace + ".ObjectObserverNode"),
+    Propagator          = include( parentNameSpace + ".Propagator")
 ;
 
 ObjectObserver.Super = "delta.com.dataStructure.graph.Graph";
@@ -9,7 +9,7 @@ ObjectObserver.Super = "delta.com.dataStructure.graph.Graph";
 function ObjectObserver(params){
 	Super(this, params);
     this.notifier = Object.getNotifier(this);
-    Object.observe(this, Propagator.propagate, ['propagate']);
+    Object.observe(this, Propagator.propagateChanges, ['propagate']);
 }
 
 ObjectObserver.properties = {
@@ -20,11 +20,16 @@ ObjectObserver.properties = {
     tempObject 	    : null,
     notifier        : null,
 
-    observePath : function observePath(pathData){
-        var path = this.buildPathArray( pathData );
+    observePath : function observePath(pathString){
+        var
+            pathArray = this.buildPathArray( pathString ),
+            lastNode, propertyRelationships
+        ;
         
-        this.buildPath( path );
-        this.bindNodesWithObject( path );
+        this.buildPath( pathArray );
+        this.bindNodesWithObject( pathArray );
+        lastNode = this.getNodeById( pathArray.pop() );
+        return lastNode;
     },
 
     buildPathArray :  function buildPathArray( path ){
@@ -71,6 +76,7 @@ ObjectObserver.properties = {
             parentNode = node.parent,
             sourceObject = parentNode.sourceObject[parentNode.propertyName]
         ;
+
         node.bind(sourceObject, node.notifier.mustNotify, this.objectObserver.notifier);
     },
 
