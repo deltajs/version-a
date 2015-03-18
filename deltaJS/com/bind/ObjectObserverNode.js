@@ -12,13 +12,24 @@ function ObjectObserverNode(params){//object, propertyName, pathObservedBuilder)
 ObjectObserverNode.prototype = {
     notifier : null,
 
+    biuldPropertyName : function biuldPropertyName(){
+        console.log()
+    },
+
     bind : function bind(object){
         console.log(object, this.id);
 
         var
             propertyDescriptor = Object.getOwnPropertyDescriptor( object, this.id ),
-            propertyType = this.getPropertyType(propertyDescriptor)
+            propertyType = this.getPropertyType(propertyDescriptor),
+            
+            data = {
+                sourceObject : object,
+                propertyName : 
+            }
         ;
+
+
 
         switch( propertyType ){
             case "field":
