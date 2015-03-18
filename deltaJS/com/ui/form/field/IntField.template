@@ -1,0 +1,5 @@
+<field rv-name="name">
+    <label>{label}</label>
+    <span><input type="number" field-reference="input"/></span>
+    <clear></clear>
+</field>

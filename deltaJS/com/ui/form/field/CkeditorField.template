@@ -1,0 +1,10 @@
+<style type="text/css">
+	form > fields > field > div[bind-ckeditor]{
+    	overflow: auto; 
+	}
+</style>
+<field rv-name="name">
+    <label>{label}</label>
+    <div rv-bind-ckeditor="name"></div>
+    <clear></clear>
+</field>

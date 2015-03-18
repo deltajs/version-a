@@ -1,0 +1,31 @@
+<style type="text/css">
+    .ArrayField {
+        padding-top: 10px;
+    }
+
+    .ArrayField .addButton {
+        color : #558;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .ArrayField > .itemsHolder{
+        overflow: auto;
+    }
+
+    .ArrayField > .itemsHolder > .items > form{
+        border-bottom: 1px solid #ddd;
+        margin: 6px 0px;
+    }
+</style>
+<field class="ArrayField">
+    <label>{label}</label>
+    <div class="itemsHolder">
+        <span tabindex=0 class="addButton" rv-on-click="createNewItem">Add new</span>
+        <div class="items" field-reference="items">
+        </div>
+        <clear></clear>
+    </div>
+    <clear></clear>
+</field>
+

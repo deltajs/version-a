@@ -1,0 +1,30 @@
+<script src="/deltaJS/core.js"></script>
+<script>
+    var ObjectObserver = include("delta.com.bind.ObjectObserver");
+
+    var data = {
+        parents : {
+            _mother_ : {
+                name        : 'irma',
+                direction   : {
+                    street : 'arquitectura'
+                }
+            },
+
+            set mother(value){
+                this._mother_ = value;
+            },
+
+            get mother(){
+                return this._mother_;
+            }
+        }
+    };
+    
+    objectObserver = new ObjectObserver({object : data});
+    objectObserver.observePath("parents.mother.direction.street");
+
+</script>
+<load-controller name-space="root.app.Site" />
+
+

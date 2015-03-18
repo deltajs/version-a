@@ -1,0 +1,27 @@
+<style type="text/css">
+    .ArrayFieldItem > .controls {
+        margin-bottom: 8px;
+    }
+
+    .ArrayFieldItem > .controls > span.remove {
+        transition:.5s;
+        opacity : 0;
+        float: right;
+        padding: 1px 3px;
+        font-size: 11px;
+    }
+
+    .ArrayFieldItem:hover > .controls > span.remove {
+        transition:.5s;
+        opacity : 1;
+    }
+
+</style>
+<form class="ArrayFieldItem" rv-status='staus'>
+    <div class="controls">
+        <span class="button-red remove" rv-on-click="parent.remove">x</span>
+        <clear></clear>
+    </div>
+    <fields>
+    </fields>
+</form>

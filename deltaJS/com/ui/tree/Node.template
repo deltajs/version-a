@@ -1,0 +1,57 @@
+<style type="text/css">
+    .Node > .wrapper {
+        width: -webkit-max-content;
+        width: -moz-max-content;
+        width: extrinsic;
+        display: flex;
+    }
+
+    .Node > .wrapper > .button, .Node > .item{
+        display: inline-block;
+    }
+
+    .Node > .wrapper > .button {
+        cursor : pointer;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        font-weight: bold;
+        color: #888;
+        text-shadow: 0px 0px 1px rgba(0, 0, 0, .3);
+        width: 10px;
+        float: left;
+    }
+
+    .Node[isCollapsed="true"] > .children{
+        display: none;
+        visibility: hidden;
+    }
+
+    .Node[isCollapsed="false"] > .children{
+        display: block;
+        visibility: visible;
+    }
+
+    .Node > .children{
+        margin-bottom: 6px;
+        margin-left: 13px;
+    }
+
+    .Node > .children > :first-child{
+        margin-top: 2px;
+    }
+
+    .Node > .children:empty{
+        margin-bottom: 2px;
+    }
+</style>
+<div class="Node" rv-isCollapsed="_isCollapsed_">
+    <div class="wrapper">
+        <div class="button" rv-on-click="tryToggleCollapse">{icon}</div>
+        <div class="guest" view-reference="guest"></div>
+    </div>
+    <div class="children" view-reference="children"></div>
+</div>

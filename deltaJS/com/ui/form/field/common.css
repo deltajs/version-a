@@ -1,0 +1,21 @@
+form field{
+    display : block;
+    margin-bottom: 10px;
+}
+
+form field > label {
+    display : inline-block;
+    float : left;
+    width : 150px;
+    color: #5E5E5E;
+    font-weight: bold;
+}
+
+form > field > span {
+    display: block;
+    overflow: hidden;
+}
+
+form > field > span > input {
+    width: 100%;
+}
