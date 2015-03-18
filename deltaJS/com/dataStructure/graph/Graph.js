@@ -76,34 +76,36 @@ Graph.properties = {
         }
     },
 
-    traverseToLeafsFromId : function traverseToLeafsFromId( nodeId, callback ){
+    traverseToLeafsFromNodeId : function traverseToLeafsFromId( nodeId, callback ){
         var
             node = this.getNodeById( nodeId )
         ;
         node.traverseToLeafs(callback);
     },
 
-    walkPathByIds : function walkPathByIds(pathData, callback, nodes){
+    walkPathByIds : function walkPathByIds(pathData, callback, nodes, totalSteps){
         if(!nodes){
             nodes = this.rootNodes;
             pathData = pathData.slice();
+            totalSteps = pathData.length;
         }
 
         var
             id = pathData.shift(),
-            node = this.getNodeById( id )
+            node = this.getNodeById( id ),
+            stepsLeft = pathData.length
         ;
 
         if( nodes.indexOf( node ) == -1 ){
             throw "Path don't exist in graph";
         }
 
-        callback(node);
+        callback(node, totalSteps, stepsLeft);
 
         if(pathData.length == 0){
             return;
         }else {
-            this.walkPathByIds(pathData, callback, node.children);
+            this.walkPathByIds(pathData, callback, node.children, totalSteps);
         }
     }
 };

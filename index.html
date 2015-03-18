@@ -1,6 +1,8 @@
 <script src="/deltaJS/core.js"></script>
 <script>
-    var ObjectObserver = include("delta.com.bind.ObjectObserver");
+    console.log(new Date());
+
+    var Binder = include("delta.com.bind.Binder");
 
     var data = {
         parents : {
@@ -20,10 +22,9 @@
             }
         }
     };
-    
-    objectObserver = new ObjectObserver({object : data});
-    objectObserver.observePath("parents.mother.direction.street");
 
+    Binder.bind(data, "parents.mother.direction.street");
+    Binder.bind(data, "parents.mother.name");
 </script>
 <load-controller name-space="root.app.Site" />
 

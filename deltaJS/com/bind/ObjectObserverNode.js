@@ -1,65 +1,74 @@
 
 var
-    FieldNotifier = include( parentNameSpace + ".FieldNotifier" )
+    FieldNotifier = include( parentNameSpace + ".FieldNotifier" ),
+    PropertyNotifier = include( parentNameSpace + ".PropertyNotifier" )
 ;
 
 ObjectObserverNode.Super = "delta.com.dataStructure.graph.GraphNode";
 
-function ObjectObserverNode(params){//object, propertyName, pathObservedBuilder){
+function ObjectObserverNode(params){
     Super(this, params);
+    this.buildPropertyName();
 }
 
-ObjectObserverNode.prototype = {
-    notifier : null,
+ObjectObserverNode.properties = {
+    notifier        : null,
+    propertyName    : null,
+    sourceObject    : null,
 
-    biuldPropertyName : function biuldPropertyName(){
-        console.log()
+    buildPropertyName : function buildPropertyName(){
+        this.propertyName = this.id.split(".").pop();
     },
 
-    bind : function bind(object){
-        console.log(object, this.id);
+    bind : function bind(sourceObject, mustNotify, notifier){
+        this.sourceObject = sourceObject;
 
         var
-            propertyDescriptor = Object.getOwnPropertyDescriptor( object, this.id ),
-            propertyType = this.getPropertyType(propertyDescriptor),
-            
+            propertyDescriptor  = Object.getOwnPropertyDescriptor( sourceObject, this.propertyName ),
+            propertyType        = this.getPropertyType(propertyDescriptor),
+
             data = {
-                sourceObject : object,
-                propertyName : 
+                sourceObject        : sourceObject,
+                propertyName        : this.propertyName,
+                propertyDescriptor  : propertyDescriptor,
+                fieldValue          : propertyDescriptor.value,
+                originalGetter      : propertyDescriptor.get,
+                originalSetter      : propertyDescriptor.set,
+                mustNotify          : mustNotify,
+                node                : this,
+                notifier            : notifier,
+                rootObject          : this.graph.rootObject
             }
         ;
 
-
-
         switch( propertyType ){
             case "field":
-                this.notifier = new FieldNotifier();
+                this.notifier = new FieldNotifier(data);
                 break;
             case "property":
+                this.notifier = new PropertyNotifier(data);
                 break;
         }
 
-        Object.defineProperty(object, this.id, this.notifier);
+        Object.defineProperty(sourceObject, this.propertyName, this.notifier);
+    },
+
+    rebindPathToLeafs : function rebindPathToLeafs(){
+        this.graph.rebindPathToLeafsFromNode(this);
     },
 
     getPropertyType : function getPropertyType( propertyDescriptor ){
-        if(propertyDescriptor.value) return "field";
-        return "property";
+        if(!propertyDescriptor){
+            console.log("Source object:", this.sourceObject);
+            throw "Property " + this.propertyName + " is missing in source object at " + this.id;
+        }
+
+        if('get' in propertyDescriptor) return "property";
+        if('set' in propertyDescriptor) return "property";
+        return "field";
     }
 }
 
-var proxyAccessors = {
-    fieldSetter : function fieldSetter(value){
-        this.fieldValue = value;
-        console.log("tara");
-    },
-
-    fieldGetter : function fieldGetter(){
-        return this.fieldValue;
-    },
-
-    //propertySetter 
-}
 
 
 
