@@ -12,6 +12,10 @@ Node.properties = {
         type : Array
     },
 
+    get isLeaf() {
+        return this.children.length == 0;
+    },
+
     get root(){
         if(!this.parent)return this;
         return this.parent.root;
@@ -123,7 +127,7 @@ Node.properties = {
         var
             index = 0, length = this.children.length, child
         ;
-
+        
         distance++;
 
         for(;index<length;index++){
