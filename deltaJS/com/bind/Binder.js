@@ -1,8 +1,8 @@
 
 var
-    ObjectObserver  = include("delta.com.bind.ObjectObserver"),
-    Relationship    = include( parentNameSpace + ".Relationship" ),
-    Updater         = include( parentNameSpace + ".updater.Updater" )
+    ObjectObserver  = include( parentNameSpace , ".objectObserver.ObjectObserver" ),
+    Relationship    = include( parentNameSpace , ".Relationship" ),
+    Updater         = include( parentNameSpace , ".updater.Updater" )
 ;
 
 function Binder(){}
@@ -23,6 +23,10 @@ Binder.bind = function(object, path, targetObject, propertyName, updaterName){
     propertyRelationships.push(relationship);
 }
 
-Updater.register("delta.com.bind.updater.FieldUpdater");
+Updater.register(
+    "delta.com.bind.updater.FieldUpdater",
+    "delta.com.bind.updater.HtmlElementAttributeUpdater"
+);
+
 
 

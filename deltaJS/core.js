@@ -1,6 +1,6 @@
 (function(){
-    function include( nameSpace ){
-        objectLoader = new include.ObjectLoader( nameSpace );
+    function include( nameSpace , relativePath){
+        objectLoader = new include.ObjectLoader( nameSpace , relativePath );
         return objectLoader.load();
     }
 
@@ -32,18 +32,46 @@
         return synchronousFileLoader.load();
     }
 
-    function ObjectLoader(nameSpace){
+    function ObjectLoader(nameSpace, relativePath){
         this.nameSpace = nameSpace;
+        this.relativePath = relativePath;
     }
 
     ObjectLoader.prototype = {
         constructor     : ObjectLoader,
         nameSpace       : null,
+        relativePath    : null,
+        relativeLevel   : null,
         parentNameSpace : null,
         url             : null,
 
-        buildUrl : function buildUrl(){
+        rebuildNameSpace : function rebuildNameSpace(){
+            if(!this.relativePath) return;
+            this.rebuildrelativePath();
 
+            var
+                relativePath        = this.relativePath,
+                nameSpaceTokens     = this.nameSpace.split( /\./ ),
+                relativeLevel       = this.relativeLevel
+            ;
+
+            while(relativeLevel--){
+                nameSpaceTokens.pop();
+            }
+
+            this.nameSpace = nameSpaceTokens.join(".") + "." + relativePath;
+        },
+
+        rebuildrelativePath : function rebuildrelativePath(){
+            var
+                result = /^(\.+)([a-zA-Z].*)/.exec( this.relativePath )
+            ;
+
+            this.relativeLevel  = result[1].length - 1;
+            this.relativePath   = result[2];
+        },
+
+        buildUrl : function buildUrl(){
             var 
                 nameSpaceTokens = this.nameSpace.split( /\./ ),
                 parentNameSpace = this.nameSpace.split( /\./ ),
@@ -51,14 +79,13 @@
                 headToken       = nameSpaceTokens[0],
                 baseUrl         = ObjectLoader.nameSpaceUrlRelations[headToken]
             ;
-            
+
             if(baseUrl == null){
                 throw "Url for name space head token'" + headToken +
                     "' is not defined. Full name space: '" + this.nameSpace +
-                    "'. Please use include.addNameSpace([head token], [url]) to fix this issue."
+                    "'.\nPlease check if the namespace is right or use include.addNameSpace([head token], [url]) to fix this issue."
                 ;
             }
-
 
             parentNameSpace.pop();
             this.parentNameSpace    = parentNameSpace.join('.');
@@ -110,6 +137,8 @@
         },
 
         load : function load(){
+            this.rebuildNameSpace();
+
             if(!ObjectLoader.loadedObjects[this.nameSpace]){
                 this.buildUrl();
                 this.loadCode();

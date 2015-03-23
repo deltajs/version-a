@@ -1,15 +1,11 @@
 
-var
-    ObjectBase = include("delta.com.ObjectBase")
-;
-
-ArrayBase.super = [
+ArrayBase.Super = [
     Array,
-    ObjectBase
+    "delta.com.objectBase.ObjectBase"
 ];
 
 function ArrayBase(params){
-    ObjectBase.call(this, params);
+    Super(this, params);
     Array.call(this);
 }
 

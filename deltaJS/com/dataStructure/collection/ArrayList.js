@@ -1,5 +1,5 @@
 
-ArrayList.super = "delta.com.dataStructure.collection.ArrayBase";
+ArrayList.Super = "delta.com.dataStructure.collection.ArrayBase";
 
 function ArrayList(params){
     Super(this, params);

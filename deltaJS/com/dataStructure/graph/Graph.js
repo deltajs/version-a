@@ -1,6 +1,6 @@
 
 var
-    GraphNode = include(parentNameSpace + ".GraphNode")
+    GraphNode = include(parentNameSpace , ".GraphNode")
 ;
 
 Graph.Super = "delta.com.objectBase.ObjectBase";
@@ -20,31 +20,30 @@ Graph.properties = {
         type : Array
     },
 
-    buildNode : function buildNode( data ){
-        if(data.constructor == GraphNode) return data;
+    buildNode : function buildNode( nodeId ){    
+        var data = {
+            id      : nodeId,
+            graph   : this
+        };
 
-        if(typeof data == "string"){
-            if( this.nodes[ data ] ) return this.nodes[ data ];
-            data = {
-                id : data,
-                graph : this
-            };
+        if( this.nodes[nodeId] ){
+            return this.nodes[nodeId];
         }
 
         var node = new this.nodeType(data);
-        this.nodes[ data.id ] = node;
+        this.nodes[ nodeId ] = node;
         return node;
     },
 
     buildPath : function buildPath( pathData ){
         var
             length = pathData.length, index = 0,
-            nodeData, lastNode, node
+            nodeId, lastNode, node
         ;
 
         for(;index<length;index++){
-            nodeData    = pathData[ index ];
-            node        = this.buildNode(nodeData);
+            nodeId      = pathData[ index ];
+            node        = this.buildNode(nodeId);
 
             if(index == 0)this.rootNodes.push(node);
             if(lastNode) lastNode.adoptChild( node );

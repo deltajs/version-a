@@ -270,7 +270,6 @@ Node.prototype.appendViewAfter = function appendViewAfter(element, referenceElem
 
 
 
-
 attach( Array.prototype, 'serialize', function serialize(){
     var index=0, length = this.length, value, data = [];
     for(;index<length;index++){

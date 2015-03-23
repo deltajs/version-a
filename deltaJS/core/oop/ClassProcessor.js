@@ -42,7 +42,7 @@ ClassProcessor.prototype = {
                 try {
                     classs = include(classs);
                 } catch (e){
-                    throw "Error loading " + classs + " as parent class for " + this.classs.name + "\n" + e.message ;
+                    throw "Error loading " + classs + " as parent class for " + this.classs.name + "\n" + e ;
                 }
             }
 

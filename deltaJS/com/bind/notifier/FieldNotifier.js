@@ -6,8 +6,6 @@ function FieldNotifier(params){
 
     this.bindAccessors();
     this.notify();
-
-    console.log(this.propertyName, this.fieldValue);
 }
 
 FieldNotifier.properties = {
@@ -30,8 +28,7 @@ FieldNotifier.properties = {
 
     react : function react(){
         this.notify();
-        
-        if(!this.node.isLeaf) return;
+        if(this.node.isLeaf) return;
         this.node.rebindPathToLeafs();
     },
 

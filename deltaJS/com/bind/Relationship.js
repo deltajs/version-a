@@ -1,7 +1,6 @@
 
-
 var
-	Updater = include( parentNameSpace + ".updater.Updater" )
+	Updater = include( parentNameSpace , ".updater.Updater" )
 ;
 
 Relationship.Super = "delta.com.objectBase.ObjectBase";
@@ -22,6 +21,7 @@ Relationship.properties = {
     	var
     		updaterClass = Updater.getByName(this.updaterName)
     	;
+        
     	this.updater = new updaterClass();
     }
 };

@@ -1,8 +1,8 @@
 
-function FieldUpdater(){
+function HtmlElementAttributeUpdater(params){
 }
 
-FieldUpdater.properties = {
+HtmlElementAttributeUpdater.properties = {
     update : function update(change, relationship){
         var
             targetObject        = relationship.targetObject,
@@ -11,8 +11,6 @@ FieldUpdater.properties = {
             sourcePropertyName  = change.propertyName
         ;
 
-        targetObject[targetPropertyName] = sourceObject[sourcePropertyName];
+        targetObject.setAttribute( targetPropertyName, sourceObject[sourcePropertyName] );
     }
 };
-
-
