@@ -1,0 +1,64 @@
+<script src="/deltaJS/core.js"></script>
+<script>
+    var
+        ArrayBase = include("delta.com.dataStructure.collection.ArrayBase")
+    ;
+
+    function testNormalArray(){
+        var array = [];
+        testOperationsOnNativeArrayObserve(array);
+    }
+
+    function testArrayBase(){
+        var array = new ArrayBase();
+        testOperationsOnNativeArrayObserve(array);
+    }
+
+    function testOperationsOnNativeArrayObserve(array){
+        Array.observe(array, function test (changes) {
+            var
+                index, change, real, spected,
+                types = [
+                    "splice",
+                    "splice",
+                    "splice",
+                    "update",
+                    "splice",
+                    "add",
+                    "delete",
+                    "splice",
+                    "delete"
+                ]
+            ;
+
+            for(index in changes){
+                real = changes[index].type;
+                spected = types.shift();
+
+                if(real != spected){
+                    throw "change type unspected. real: <" + real + "> spected : <" + spected + ">, on operation <" + index + ">";
+                }
+            }
+        });
+
+        //"add", "update", "delete", or "splice".
+
+        array.push("x");            // splice
+        array.pop();                // splice
+        array[0] = "x";             // splice
+        array[0] = "y";             // update
+        array.shift();              // splice
+        array.gomes = "gomes";      // add
+        delete array.gomes;         // delete
+        array[0] = "x";             // splice
+        delete array[0]             // delete
+
+    }
+
+    testNormalArray();
+    testArrayBase();
+
+    //Result: native arrays is not observed in the same way as ArrayBase instances.
+    
+
+</script>

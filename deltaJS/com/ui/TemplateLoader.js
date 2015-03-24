@@ -6,12 +6,12 @@ var
 TemplateLoader.Super = "delta.com.objectBase.ObjectBase";
 
 function TemplateLoader(params){
-	Super(this, params);
-	
+    Super(this, params);
+    
 }
 
 TemplateLoader.properties = {
-	templates : {
+    templates : {
         type : Object
     },
 
@@ -27,7 +27,7 @@ TemplateLoader.properties = {
         return template;
     },
 
-	buildUrl : function buildUrl(viewNameSpace){
+    buildUrl : function buildUrl(viewNameSpace){
         var
             nameSpaceChain  = viewNameSpace.split('.'),
             headToken       = nameSpaceChain[0], url,

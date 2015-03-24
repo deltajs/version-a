@@ -17,11 +17,10 @@ AncestryBuilder.prototype = {
         for(;index<length;index++){
             parentClass = parentClasses[index];
             
-            if(!parentClass.metaData){
-                continue;
+            if(parentClass.metaData){
+                this.addToAncestry( parentClass.metaData.parentClasses );
             }
             
-            this.addToAncestry( parentClass.metaData.parentClasses );
             ancestry.add( parentClass );
         }
     },

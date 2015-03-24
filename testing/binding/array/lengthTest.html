@@ -1,0 +1,27 @@
+<script>
+
+function Collection () {
+    Array.apply(this, arguments);
+}
+
+Collection.prototype = Object.create(Array.prototype);
+Collection.constructor = Collection;
+
+////////////////
+
+var collection = new Collection();
+
+collection.push('A');
+collection.push('B');
+collection.push('C');
+
+
+console.log( collection[0] ); //------> "A"
+console.log( collection[1] ); //------> "B"
+console.log( collection[2] ); //------> "C"
+console.log( collection.length ); //------> "C"
+collection[10] = 5;
+console.log( collection.length ); //------> "C"
+
+
+</script>

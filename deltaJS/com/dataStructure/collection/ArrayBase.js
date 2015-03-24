@@ -1,15 +1,28 @@
 
+var
+    ObjectBase = include("delta.com.objectBase.ObjectBase")
+;
+
 ArrayBase.Super = [
-    Array,
-    "delta.com.objectBase.ObjectBase"
+    ObjectBase,
+    Array
 ];
 
 function ArrayBase(params){
-    Super(this, params);
-    Array.call(this);
+    ObjectBase.call(this, params);
 }
 
 ArrayBase.properties = {
+    _length_ : 0,
+
+    
+    set length (value) {
+        this._length_ = value;
+    },
+    get length(){
+        return this._length_;
+    },
+
     deserializeFrom : function(data){
         if(data == null)return;
         var

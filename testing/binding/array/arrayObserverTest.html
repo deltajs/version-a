@@ -1,0 +1,51 @@
+<script src="/deltaJS/core.js"></script>
+<script>
+    var
+        ArrayBase = include("delta.com.dataStructure.collection.ArrayBase"),
+        ArrayObserver = include("delta.com.bind.arrayObserver.ArrayObserver")
+    ;
+
+    function testNormalArray(){
+        array = [];
+        excecuteOperations(array);
+    }
+
+    function testArrayBase(){
+        array = new ArrayBase();
+        excecuteOperations(array);
+    }
+
+    function excecuteOperations(array){
+        arrayObserver = new ArrayObserver({
+            array : array
+        });
+
+        arrayObserver.start();
+        array.push(0);              // splice
+        array.push(1);              // splice
+        array.push(2);              // splice
+        
+        array[0]    = "0";          // update
+        array[10]   = "10";         // added
+        array[11]   = "11";         // added
+        array[8]   = "8";           // added
+        array.pop();                // splice
+        array[0] = "x";             // splice
+        array[0] = "y";             // update
+        array.shift();              // splice
+        array.gomes = "gomes";      // add
+        delete array.gomes;         // delete
+        array[0] = "x";             // splice
+        array.splice(0,1, 10,20,30);
+    }
+
+    testNormalArray();
+    testArrayBase();
+
+
+
+
+
+
+
+</script>

@@ -1,0 +1,28 @@
+<script src="/deltaJS/core.js"></script>
+<script>
+    function testNormalArray(){
+        var array = [];
+        testOperationsOnNativeArrayObserve(array);
+    }
+
+    function testOperationsOnNativeArrayObserve(array){
+        
+        Array.observe(array, function test (changes) {
+            var
+                length = changes.length,
+                change
+            ;
+            while(length--){
+                change = changes[length]; 
+                console.log(change);
+            }
+        });
+
+        array.push(0);
+        array.push(1);
+        array.push(2);
+    }
+
+    testNormalArray();
+
+</script>
